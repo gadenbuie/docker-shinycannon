@@ -5,9 +5,12 @@ LABEL maintainer="Garrick Aden-Buie (Garrick.Aden-Buie@moffitt.org)"
 RUN apt-get update && apt-get install -y wget default-jre-headless
 
 # R packge deps
-RUN apt-get update && apt-get install -y libcurl4-openssl-dev libssl1.0 libssl1.0-dev
+RUN apt-get update && apt-get install -y libcurl4-openssl-dev libssl1.0 libssl1.0-dev libxml2-dev
 
-RUN Rscript -e 'install.packages(c("pak","docopt")); pak::pkg_install("rstudio/shinyloadtest")'
+RUN Rscript -e 'install.packages(c("pak","docopt"))'
+
+RUN apt-get update && apt-get install -y libcairo2-dev
+RUN Rscript -e 'pak::pkg_install("rstudio/shinyloadtest")'
 
 ENV TMPDIR /tmp/cannon
 RUN mkdir -p $TMPDIR && \
